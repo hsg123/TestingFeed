@@ -50,7 +50,7 @@ $(function() {
          * hidden by default.
          */
         it('Menu is hidden by default', function() {
-            expect($('body').attr("class")).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
         /* Test that the menu changes visibility when the menu icon is clicked.
@@ -58,9 +58,9 @@ $(function() {
          */
         it('Menu is visible when clicked then invisible again', function() {
             $('.menu-icon-link').trigger('click'); //triggers the menu icons click event
-            expect($('body').attr("class")).not.toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).not.toBe(true);
             $('.menu-icon-link').trigger('click');
-            expect($('body').attr("class")).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
     /* Tests that entries are available on app initialization */
@@ -77,12 +77,12 @@ $(function() {
          */
         it('When loadFeed() called, there is atleast one .entry in .feed container',
             function(done) {
-                expect($('.feed').find('.entry').length).toBeGreaterThan(1);
+                expect($('.feed').find('.entry').length).toBeGreaterThan(0);
                 done();
             });
     });
 
-    /* Test that when a new feed is loaded by the loadFeed function 
+    /* Test that when a new feed is loaded by the loadFeed function
      * that the content actually changes.
      */
     describe('New Feed Selection', function() {
@@ -95,12 +95,11 @@ $(function() {
                 title1 = $(".feed .entry-link .entry h2").html();
                 //name of rss feed
                 header1 = $(".header-title").html();
-            });
-
-            loadFeed(1, function() {
-                title2 = $(".feed .entry-link .entry h2").html();
-                header2 = $(".header-title").html();
-                done();
+                loadFeed(1, function() {
+                    title2 = $(".feed .entry-link .entry h2").html();
+                    header2 = $(".header-title").html();
+                    done();
+                });
             });
         });
         //verify that the two feeds are different in header and the first entry
